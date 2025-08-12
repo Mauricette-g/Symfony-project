@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Boutique Stubborn{% endblock %}
+
+{% block body %}
+
+<div class="m-2 text-center">
+    <h1 >Bienvenue chez Stubborn </h1>
+    <p >Découvrez nos sweats tendance, confortables et durables.</p>
+</div>
+
+
+<div class="row align-items-start">
+    {% for product in featuredProducts %}
+        <div class="col">
+            <img src="{{ asset('images/produits/' ~ product.image) }}" alt="{{ product.nom }}">
+            <h3>{{ product.nom }}</h3>
+            <p>{{ product.prix }} €</p>
+            {% if app.user %}
+                <a class="btn btn-warning" href="{{ path('product_show', {'id': product.id}) }}">Voir produit</a>
+            {% endif %}
+        </div>
+    {% else %}
+        <p style="text-align:center;">Aucun produit en avant</p>
+    {% endfor %}
+</div>
+{% endblock %}

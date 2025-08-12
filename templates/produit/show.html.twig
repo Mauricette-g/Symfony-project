@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ produit.nom }}{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row g-5">
+        <!-- Image du produit -->
+        <div class="col-lg-6">
+            <div class="bg-light p-3 rounded shadow-sm text-center">
+                <img src="{{ asset('images/produits/' ~ produit.image) }}"
+                     alt="{{ produit.nom }}"
+                     class="img-fluid rounded"
+                     style="max-height: 500px; object-fit: contain;">
+            </div>
+        </div>
+
+        <!-- Détails du produit -->
+        <div class="col-lg-6">
+            <h1 class="display-5 fw-bold">{{ produit.nom }}</h1>
+            <p class="fs-4 text-success fw-bold mb-4">{{ produit.prix }} €</p>
+
+            <hr>
+
+            {# Sélecteur de tailles #}
+            {% if produit.taille is defined and produit.taille is iterable and produit.taille|length > 0 %}
+                <form method="post" action="{{ path('cart_add', {id: produit.id}) }}">
+                    <div class="mb-4">
+                        <label for="taille" class="form-label fs-5">Taille :</label>
+                        <select id="taille" name="taille" class="form-select form-select-lg" required>
+                            {% if produit.taille is iterable %}
+                                {% for taille in produit.taille %}
+                                    <option value="{{ taille }}">{{ taille }}</option>
+                                {% endfor %}
+                                {% else %}
+                                    <option value="{{ produit.taille }}">{{ produit.taille }}</option>
+                            {% endif %}
+                        </select>
+                    </div>
+
+                    <!-- Bouton Ajouter au panier -->
+                    <div class="d-flex gap-3">
+                        <button type="submit" class="btn btn-primary btn-lg px-4">
+                            <i class="bi bi-cart-plus"></i> Ajouter au panier
+                        </button>
+                        <a href="{{ path('products_list') }}" class="btn btn-outline-secondary btn-lg">
+                            Continuer mes achats
+                        </a>
+                    </div>
+                </form>
+            {% else %}
+                <p class="text-danger fs-5">Ce produit n’est plus disponible.</p>
+            {% endif %}
+
+
+            <hr class="my-4">
+
+            <!-- Description -->
+            <p class="text-muted">
+                Découvrez le confort et le style avec notre sweat-shirt {{ produit.nom }}.
+                Parfait pour toutes les saisons, avec des matériaux de haute qualité.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

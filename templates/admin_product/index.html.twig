@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des produits{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Produits</h1>
+    <a href="{{ path('admin_product_add') }}" class="btn btn-primary mb-3">Ajouter un produit</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prix</th>
+                <th>Image</th>
+                <th>Taille</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for produit in produits %}
+            <tr>
+                <td>{{ produit.nom }}</td>
+                <td>{{ produit.prix }} €</td>
+                <td><img src="{{ asset('images/produits/' ~ produit.image) }}" width="80"></td>
+                <td>{{ produit.taille|join(', ') }}</td>
+                <td>
+                    <a href="{{ path('admin_product_edit', {id: produit.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+                    <form method="post" action="{{ path('admin_product_delete', {id: produit.id}) }}" style="display:inline-block" onsubmit="return confirm('Supprimer ?');">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button class="btn btn-danger btn-sm">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr><td colspan="4">Aucun produit trouvé</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
