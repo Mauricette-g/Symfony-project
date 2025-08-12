@@ -72,5 +72,6 @@ FormType pour produit et pour s'inscrire
 
 /admin/produits/  -> interface admin de gestion du backend
 
-
+Ajouter le rôle ‘ ROLE_ADMIN ‘ dans la base de données pour un utilisateur admin.
+Ajouter le rôle ‘ ROLE_ADMIN ‘ dans la base de données pour un utilisateur admin.
 
