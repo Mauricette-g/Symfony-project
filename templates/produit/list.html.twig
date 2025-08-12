@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des produits{% endblock %}
+
+{% block body %}
+<div class="container m-2">
+    <h1 class="m-3 text-center">Produits</h1>
+
+    <form method="get" action="{{ path('products_list') }}" class="mb-4 row g-3 align-items-center">
+        <div class="col-auto">
+            <label for="price" class="col-form-label">Filtrer par prix :</label>
+        </div>
+        <div class="col-auto">
+            <input type="number" id="price" name="price" value="{{ priceFilter }}" min="0" step="0.01" class="form-control" placeholder="Ex:10">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Filtrer</button>
+            <a href="{{ path('products_list') }}" class="btn btn-secondary">Réinitialiser</a>
+        </div>
+    </form>
+
+    {% if produits is empty %}
+        <div class="alert alert-warning">Aucun produit trouvé.</div>
+    {% else %}
+        <div class="row m-2 g-2 align-items-start">
+            {% for produit in produits %}
+                <div class="col-4">
+                    <div class="card">
+                        <img src="{{ asset('images/produits/' ~ produit.image) }}" class="card-img-top" alt="{{ produit.nom }}" style="object-fit: cover; height: 200px;">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ produit.nom }}</h5>
+                            <p class="card-text fw-bold">{{ produit.prix }} €</p>
+                            <a class="btn btn-warning" href="{{ path('product_show', {'id': produit.id}) }}">Voir produit</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
